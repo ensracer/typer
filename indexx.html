@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>frENS Typer - See how fast you can type!</title>
+  <meta name="description" content="A frENS community game. Learn more about the frENS collection at frens.studio.">
+  <link rel="canonical" href="https://ensracer.github.io/typer">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- OpenGraph Meta Tags -->
+  <meta property="og:title" content="frENS Typer - See how fast you can type!">
+  <meta property="og:description" content="A frENS community game. Learn more about the frENS collection at frens.studio.">
+  <meta property="og:url" content="https://ensracer.github.io/typer">
+  <meta property="og:image" content="https://ensracer.github.io/typer/game.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="frENS Typer">
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="frENS Typer - See how fast you can type!">
+  <meta name="twitter:description" content="A frENS community game. Learn more about the frENS collection at frens.studio.">
+  <meta name="twitter:url" content="https://ensracer.github.io/typer">
+  <meta name="twitter:image" content="https://ensracer.github.io/typer/game.jpg">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Press Start 2P">
+  <style>
+
+    body {
+      font-family: 'Press Start 2P','Helvetica';
+      color:white;
+      background:#253756;
+    }
+
+    #gameContainer {
+      width:380px;
+      margin:auto;
+      display:block;
+      text-align:center;
+    }
+    input {
+      width:100%;
+      padding:5px;
+      font-family: 'Press Start 2P','Helvetica';
+      font-size:16px;
+    }
+    .correct {
+      color: red;
+    }
+
+    #frens {
+      width:100%;
+      margin-top:20px;
+    }
+
+    #currentWord {
+    font-size:20px;
+    padding:5px;
+    }
+  
+
+    button {
+      background-color:#ffcc33;
+      color:black;
+      border:0px;
+      font-family: 'Press Start 2P','Helvetica';
+      padding:10px;
+      border-radius:5px;
+      cursor:pointer;
+    }
+
+    button:hover {
+      background-color:#fff;
+    }
+
+  </style>
+
+
+
+</head>
+<body>
+  <div id="gameContainer">
+  <h1>frENS Typer</h1>
+  <p>Type the word below:</p>
+  <p id="currentWord"> Click start to begin</p>
+  <input type="text" id="userInput" disabled>
+  <p>Score: <span id="score">0</span></p>
+  <div id="timerbox">
+  <p>Time Left: <span id="timer">30</span> seconds</p></div>
+  <audio id="keySound" src="click.mp3"></audio>
+  <audio id="gameSound" src="game.mp3"></audio>
+
+
+  <script>
+const words = [
+  "apple.eth",
+  "happy.eth",
+  "mountain.eth",
+  "star.eth",
+  "ocean.eth",
+  "wonderful.eth",
+  "computer.eth",
+  "butterfly.eth",
+  "sun.eth",
+  "courageous.eth",
+  "book.eth",
+  "vibrant.eth",
+  "flower.eth",
+  "adventure.eth",
+  "dream.eth",
+  "magic.eth",
+  "explorer.eth",
+  "captain.eth",
+  "treasure.eth",
+  "mysterious.eth",
+  "journey.eth",
+  "fantastic.eth",
+  "candle.eth",
+  "dragon.eth",
+  "unicorn.eth",
+  "whisper.eth",
+  "castle.eth",
+  "shining.eth",
+  "breeze.eth",
+  "sunset.eth",
+  "seashell.eth",
+  "guitar.eth",
+  "moonlight.eth",
+  "enchanting.eth",
+  "emerald.eth",
+  "cheerful.eth",
+  "vintage.eth",
+  "adventure.eth",
+  "wildflower.eth",
+  "blossom.eth",
+  "sapphire.eth",
+  "secret.eth",
+  "garden.eth",
+  "whimsical.eth",
+  "serenade.eth",
+  "treasure.eth",
+  "sunny.eth",
+  "harmony.eth",
+  "wanderer.eth",
+  "paradise.eth",
+  "pink.eth",
+  "azure.eth",
+  "crimson.eth",
+  "ebony.eth",
+  "indigo.eth",
+  "waterfall.eth",
+  "forest.eth",
+  "thunderstorm.eth",
+  "sunrise.eth",
+  "hummingbird.eth",
+  "happiness.eth",
+  "serenity.eth",
+  "nostalgia.eth",
+  "excitement.eth",
+  "tranquility.eth",
+  "phoenix.eth",
+  "griffin.eth",
+  "penguin.eth",
+  "dolphin.eth",
+  "chameleon.eth",
+  "comet.eth",
+  "constellation.eth",
+  "supernova.eth",
+  "eclipse.eth",
+  "nebula.eth",
+  "backpacker.eth",
+  "wanderlust.eth",
+  "expedition.eth",
+  "voyage.eth",
+  "navigator.eth",
+  "chocolate.eth",
+  "cupcake.eth",
+  "espresso.eth",
+  "sushi.eth",
+  "pancake.eth",
+  "melody.eth",
+  "violin.eth",
+  "symphony.eth",
+  "jazz.eth",
+  "opera.eth",
+  "mermaid.eth",
+  "wizard.eth",
+  "unicorn.eth",
+  "elf.eth",
+  "dragonfly.eth",
+  "novel.eth",
+  "poet.eth",
+  "sonnet.eth",
+  "library.eth",
+  "quill.eth",
+  "robotics.eth",
+  "virtual.eth",
+  "algorithm.eth",
+  "cyberspace.eth",
+  "quantum.eth",
+  "champion.eth",
+  "stadium.eth",
+  "sprinter.eth",
+  "goal.eth",
+  "referee.eth",
+  "blizzard.eth",
+  "monsoon.eth",
+  "sunshine.eth",
+  "thunder.eth",
+  "rainbow.eth",
+  "Hercules.eth",
+  "Medusa.eth",
+  "Zeus.eth",
+  "Poseidon.eth",
+  "Athena.eth",
+  "masterpiece.eth",
+  "sculpture.eth",
+  "palette.eth",
+  "mural.eth",
+  "gallery.eth"
+];
+    let currentWord = "";
+    let score = 0;
+    let timer = 30;
+    let timerInterval;
+
+    const currentWordDisplay = document.getElementById("currentWord");
+    const userInput = document.getElementById("userInput");
+    const scoreDisplay = document.getElementById("score");
+    const timerDisplay = document.getElementById("timer");
+
+    function getRandomWord() {
+      const randomIndex = Math.floor(Math.random() * words.length);
+      return words[randomIndex];
+    }
+
+    function startGame() {
+      clearInterval(timerInterval); // Clear any existing timer interval
+      userInput.disabled = false; // Enable the input field
+      gameSound.play();
+      document.getElementById("timerbox").style.display = "block";
+      currentWord = getRandomWord();
+      currentWordDisplay.textContent = currentWord;
+      userInput.value = "";
+      score = 0;
+      scoreDisplay.textContent = score;
+      timer = 30;
+      timerDisplay.textContent = timer;
+      userInput.focus();
+
+      timerInterval = setInterval(() => {
+        timer--;
+        timerDisplay.textContent = timer;
+        if (timer === 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+  function playKeySound() {
+  keySound.currentTime = 0; // Reset the audio to the beginning (for repeated key presses)
+  keySound.play();
+}
+
+
+    function checkInput() {
+      playKeySound();
+      const typedWord = userInput.value;
+      if (typedWord === currentWord) {
+        score++;
+        scoreDisplay.textContent = score;
+        currentWord = getRandomWord();
+        currentWordDisplay.textContent = currentWord;
+        userInput.value = "";
+      } else {
+        for (let i = 0; i < typedWord.length; i++) {
+          if (typedWord[i] === currentWord[i]) {
+            currentWordDisplay.innerHTML = `<span class="correct">${currentWord.substring(0, i)}</span>${currentWord.substring(i)}`;
+          } else {
+            currentWordDisplay.innerHTML = `<span class="correct">${currentWord.substring(0, i)}</span>${currentWord.substring(i)}`;
+            break;
+          }
+        }
+      }
+    }
+
+    function endGame() {
+      clearInterval(timerInterval);
+      currentWordDisplay.textContent = "Game Over";
+      userInput.value = "";
+      userInput.disabled = true;
+      document.getElementById("timerbox").style.display = "none";
+    }
+
+  
+    userInput.addEventListener("input", checkInput);
+  </script>
+
+  <button onclick="startGame()">Start / Restart</button>
+  <img id="frens" src="frens.gif">
+  <p><small>A game by frENS community member <a style="color:white!important;text-decoration:underline" href="https://twitter.com/growthpj" target="_blank">frogfrens.eth</a></small></p>
+  </div>
+  <div id="scores">
+High Scores:
+<div id="scoreboard">
+
+<script>
+// Function to fetch and display scores
+function fetchScores() {
+  // Replace 'YOUR_BIN_ID' with the actual bin ID
+  const binId = '653b77c60574da7622be5900';
+  
+  // Make the GET request to JSONbin.io
+  fetch(`https://api.jsonbin.io/b/${binId}`, {
+    method: 'GET',
+    headers: {
+      'X-Master-Key': '$2a$10$Ythtol84NII3oEOkPSi0HOB.9JtSWCUuBR8xoMG0e1.pV7XzirLpG', // Replace with your API key
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      const scoreBoard = document.getElementById('score-board');
+      scoreBoard.innerHTML = ''; // Clear previous content
+      
+      // Loop through the data and create elements for each score
+      data.scores.forEach(score => {
+        const scoreElement = document.createElement('p');
+        scoreElement.textContent = score.name + ' - ' + score.score;
+        scoreBoard.appendChild(scoreElement);
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+// Call the fetchScores function to load scores when needed
+fetchScores();
+
+
+</script>
+
+</div>
+</div>
+</body>
+</html>
+
+
