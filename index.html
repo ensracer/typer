@@ -280,13 +280,45 @@ const words = [
       }
     }
 
-    function endGame() {
-      clearInterval(timerInterval);
-      currentWordDisplay.textContent = "Game Over";
-      userInput.value = "";
-      userInput.disabled = true;
-      document.getElementById("timerbox").style.display = "none";
-    }
+  function endGame() {
+  clearInterval(timerInterval);
+  currentWordDisplay.textContent = "Game Over";
+  userInput.value = "";
+  userInput.disabled = true;
+  document.getElementById("timerbox").style.display = "none";
+
+  const playerName = prompt("Game Over! Please enter your name to log your high score");
+  const playerScore = scoreDisplay.textContent;
+
+  if (playerName && playerName.trim() !== "") {
+    const data = {
+      name: playerName.trim(),
+      score: playerScore,
+    };
+
+    // Send data to a webhook (replace 'your-webhook-url' with the actual URL)
+    fetch('https://script.google.com/macros/s/AKfycbxFMW8z3pOBGVahlILhcCHcjD8r6rNuEtSBZSror8pzCcOeVMKDPzNph5GdIaxZJdYX/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => {
+      if (response.ok) {
+        alert("Score submitted successfully!");
+      } else {
+        alert("Score submission failed. Please try again later.");
+      }
+    })
+    .catch(error => {
+      alert("Score submission failed. Please try again later.");
+      console.error('Error:', error);
+    });
+  } else {
+    alert("Please enter a valid name to submit your score.");
+  }
+}
 
   
     userInput.addEventListener("input", checkInput);
